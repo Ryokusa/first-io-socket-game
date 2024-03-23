@@ -29,6 +29,7 @@
       Authenticated!<br />
       <figure class="icon-circle">
         <img :src="_getUserAvatarUrl(auth)" alt="" />
+        <figcaption>{{ auth.user.username }}</figcaption>
       </figure>
     </p>
     <p v-else>Not authenticated</p>
@@ -51,15 +52,25 @@
   }
 
   .icon-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    max-width: 100px;
     overflow: hidden;
     position: relative;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .icon-circle img {
+    max-width: 50px;
+    border-radius: 50%;
     width: 100%;
     height: auto;
+  }
+
+  figcaption {
+    background-color: #afa;
+    color: #040;
+    font: italic smaller sans-serif;
+    padding: 3px;
+    text-align: center;
   }
 </style>
