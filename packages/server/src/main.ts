@@ -1,6 +1,7 @@
 import express from "express";
 import fetch from "node-fetch";
-
+import http from "node:http";
+import { createServer as createViteServer } from "vite";
 const app = express();
 const port = 3001;
 
@@ -15,8 +16,8 @@ app.post("/api/token", async (req, res) => {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
-      client_id: import.meta.env.VITE_DISCORD_CLIENT_ID,
-      client_secret: import.meta.env.VITE_DISCORD_CLIENT_SECRET,
+      client_id: process.env.VITE_DISCORD_CLIENT_ID,
+      client_secret: process.env.VITE_DISCORD_CLIENT_SECRET,
       grant_type: "authorization_code",
       code: req.body.code,
     }),
@@ -29,8 +30,13 @@ app.post("/api/token", async (req, res) => {
   res.send({ access_token });
 });
 
-app.listen(port, () => {
+const server = http.createServer(app);
+const vite = await createViteServer({
+  server: { middlewareMode: true, hmr: { server } },
+  appType: "custom",
+});
+app.use(vite.middlewares);
+
+server.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
-
-export const viteNodeApp = app;
