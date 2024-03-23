@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import HelloWorld from "./components/HelloWorld.vue";
+  import { useClientSocket } from "./compositions/clientSocket";
   import {
     getUserAvatarUrl,
     useAuthenticatedContext,
@@ -11,6 +11,9 @@
   const _getUserAvatarUrl = (auth: TAuthenticatedContext) => {
     return getUserAvatarUrl({ guildMember: null, user: auth.user });
   };
+
+  const { connectSocket, disconnectSocket, connected, connecting } =
+    useClientSocket();
 </script>
 
 <template>
@@ -33,8 +36,12 @@
       </figure>
     </p>
     <p v-else>Not authenticated</p>
+    <p v-if="!connected && !connecting">
+      <button @click="connectSocket()">接続</button>
+    </p>
+    <p v-else-if="connecting">Connecting...</p>
+    <p v-else>接続済み<button @click="disconnectSocket()">切断</button></p>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
