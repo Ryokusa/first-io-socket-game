@@ -50,6 +50,9 @@ importers:
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
+      socket.io:
+        specifier: ^4.7.5
+        version: 4.7.5
     devDependencies:
       '@types/express':
         specifier: ^4.17.21
