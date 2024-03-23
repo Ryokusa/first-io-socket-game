@@ -1,6 +1,6 @@
 # Discord マルチプレイ Activity テスト
 
-Discord Embedded SDK でマルチプレイゲームを作ってみるリポジトリ
+Discord Embedded SDK でマルチプレイゲームを作ってみるリポジトリ  
 クライアントは Vue.js で作成し、サーバーは Express
 
 ## 必要なの
