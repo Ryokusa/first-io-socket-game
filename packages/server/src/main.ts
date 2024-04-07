@@ -2,7 +2,7 @@ import express from "express";
 import fetch from "node-fetch";
 import http from "node:http";
 import { createServer as createViteServer } from "vite";
-import { useServerSocket } from "./serverSocket";
+import { useHost } from "./host";
 const app = express();
 const port = 3001;
 
@@ -42,4 +42,4 @@ server.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 
-useServerSocket(server);
+useHost(server);

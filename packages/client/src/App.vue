@@ -1,19 +1,8 @@
 <script setup lang="ts">
-  import { useClientSocket } from "./compositions/clientSocket";
-  import {
-    getUserAvatarUrl,
-    useAuthenticatedContext,
-  } from "./compositions/useAuthenticatedContext";
-  import { TAuthenticatedContext } from "./types";
+  import MainScreen from "./components/MainScreen.vue";
+  import { useAuthenticatedContext } from "./compositions/useAuthenticatedContext";
 
   const { auth, settingUp } = useAuthenticatedContext();
-
-  const _getUserAvatarUrl = (auth: TAuthenticatedContext) => {
-    return getUserAvatarUrl({ guildMember: null, user: auth.user });
-  };
-
-  const { connectSocket, disconnectSocket, connected, connecting } =
-    useClientSocket();
 </script>
 
 <template>
@@ -30,17 +19,9 @@
     <p v-if="settingUp">Setting up...</p>
     <p v-else-if="auth">
       Authenticated!<br />
-      <figure class="icon-circle">
-        <img :src="_getUserAvatarUrl(auth)" alt="" />
-        <figcaption>{{ auth.user.username }}</figcaption>
-      </figure>
+      <MainScreen :auth="auth" />
     </p>
     <p v-else>Not authenticated</p>
-    <p v-if="!connected && !connecting">
-      <button @click="connectSocket()">接続</button>
-    </p>
-    <p v-else-if="connecting">Connecting...</p>
-    <p v-else>接続済み<button @click="disconnectSocket()">切断</button></p>
   </div>
 </template>
 
@@ -56,28 +37,5 @@
   }
   .logo.vue:hover {
     filter: drop-shadow(0 0 2em #42b883aa);
-  }
-
-  .icon-circle {
-    max-width: 100px;
-    overflow: hidden;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .icon-circle img {
-    max-width: 50px;
-    border-radius: 50%;
-    width: 100%;
-    height: auto;
-  }
-
-  figcaption {
-    background-color: #afa;
-    color: #040;
-    font: italic smaller sans-serif;
-    padding: 3px;
-    text-align: center;
   }
 </style>

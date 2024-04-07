@@ -23,3 +23,8 @@ VITE_DISCORD_CLIENT_SECRET=YOUR_DISCORD_CLIENT_SECRET
 pnpm install
 pnpm dev
 ```
+
+## このブランチについて
+
+移動同期のあるゲームを作ろうとしたブランチ
+難しいので本編とは別ブランチで作成

@@ -7,23 +7,26 @@ const connected = ref(false);
 const connecting = ref(false);
 
 const connectSocket = () => {
-  if (connected.value) return console.log("Already connected");
+  return new Promise<Socket>((resolve) => {
+    if (connected.value) return console.log("Already connected");
 
-  console.log("connecting socket");
-  connecting.value = true;
-  clientSocket.value = io();
+    console.log("connecting socket");
+    connecting.value = true;
+    const socket = io();
+    socket.on("connect", () => {
+      console.log("a user connected");
+      connected.value = true;
+      connecting.value = false;
+      resolve(socket);
+    });
 
-  clientSocket.value?.on("connect", () => {
-    connected.value = true;
-    connecting.value = false;
+    socket.on("disconnect", () => {
+      connected.value = false;
 
-    console.log("a user connected");
-  });
+      console.log("user disconnected");
+    });
 
-  clientSocket.value?.on("disconnect", () => {
-    connected.value = false;
-
-    console.log("user disconnected");
+    clientSocket.value = socket;
   });
 };
 
